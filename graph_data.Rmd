@@ -1,0 +1,37 @@
+---
+title: "Explore the 2021 Canadian Federal Election"
+author: "Group 4"
+output: pdf
+---
+
+```{r}
+#### Workspace setup ####
+#install.packages("tidyverse")
+#install.packages("janitor")
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+# Reading the data from CSV file
+cleaned_elections_data <-
+  read_csv(
+    file = "cleaned_elections_data.csv",
+    show_col_types = FALSE
+  )
+```
+
+```{r}
+# Creating the table from the planning stage
+cleaned_elections_data |>
+  count(party)
+```
+
+```{r}
+# Building the graph of interest using ggplot2, from the planning stage
+cleaned_elections_data |>
+  ggplot(aes(x = party)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(x = "Party", y = "Number of seats")
+```

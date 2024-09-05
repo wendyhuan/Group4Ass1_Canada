@@ -1,0 +1,67 @@
+---
+title: "Explore the 2021 Canadian Federal Election"
+author: "Group 4"
+output: pdf
+---
+
+```{r}
+#### Workspace setup ####
+#install.packages("tidyverse")
+#install.packages("janitor")
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+# Renaming the variables of interest to English
+cleaned_elections_data <- cleaned_elections_data |>
+  select(
+    "electoral_district_name_nom_de_circonscription",
+    "elected_candidate_candidat_elu"
+  )
+  
+cleaned_elections_data <-
+  cleaned_elections_data |>
+  rename(
+    riding = electoral_district_name_nom_de_circonscription,
+    elected_candidate = elected_candidate_candidat_elu
+  )
+
+head(cleaned_elections_data)
+```
+
+```{r}
+# Seperate the Party Name and Clean the data from elected candidates
+cleaned_elections_data <- cleaned_elections_data |>
+  separate(
+    col = elected_candidate,
+    into = c("Other", "party"),
+    sep = "/"
+  ) |>
+  select(-Other)
+
+head(cleaned_elections_data)
+```
+
+```{r}
+# Renaming Party Names from French to English
+cleaned_elections_data <- cleaned_elections_data |>
+  mutate(
+    party = recode(
+      party,
+      "Libéral" = "Liberal",
+      "Conservateur" = "Conservative",
+      "Bloc Québécois" = "Bloc Québécois",
+      "NPD-Nouveau Parti démocratique" = "New Democratic",
+      "Parti Vert" = "Green",
+      "Autre" = "Other"
+    )
+  )
+
+write_csv (
+  x = cleaned_elections_data,
+  file = "cleaned_elections_data.csv"
+)
+
+head(cleaned_elections_data)
+```

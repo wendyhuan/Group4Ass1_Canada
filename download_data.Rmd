@@ -1,0 +1,42 @@
+---
+title: "Explore the 2021 Canadian Federal Election"
+author: "Group 4"
+output: pdf
+---
+
+```{r}
+#### Workspace setup ####
+#install.packages("tidyverse")
+#install.packages("janitor")
+library(tidyverse)
+library(janitor)
+```
+
+## Acquire
+
+```{r}
+# Download and Read the data 
+#### Read in the data ####
+raw_elections_data <-
+  read_csv(
+    file = 
+      "table_tableau11.csv",
+    show_col_types = FALSE,
+  )
+
+```
+
+```{r}
+#### Basic cleaning ####
+raw_elections_data <-
+  read_csv(
+    file = "canada_voting.csv",
+    show_col_types = FALSE
+  )
+# Make the names easier to type by adjusting the name of the variable
+cleaned_elections_data <-
+   clean_names(raw_elections_data)
+
+# First six rows of cleaned data
+head(cleaned_elections_data)
+```
